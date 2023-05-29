@@ -1,0 +1,57 @@
+---
+title: "App"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: scroll
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr)
+library(ggplot2)
+library(tidyquant)
+library(plotly)
+```
+
+
+Column {data-width=200}
+-----------------------------------------------------------------------
+
+### Tabela
+
+```{r}
+renderTable({
+  stocks <- tq_get(c("PETR4.SA", "BBAS3.SA"))
+  stocks %>% head()
+})
+```
+
+Column {data-width=500}
+-----------------------------------------------------------------------
+
+### Grafico de linha
+
+```{r}
+renderPlotly({
+  stocks <- tq_get(c("PETR4.SA", "BBAS3.SA","VALE3.SA", "WEGE3.SA"))
+
+ggplot(stocks) +
+  aes(x = date, y = adjusted, color = symbol) +
+  geom_line()
+})
+```
+
+### Grafico de linha 2
+
+```{r}
+renderPlotly({
+  tq_get(c("PETR4.SA", "BBAS3.SA","VALE3.SA", "WEGE3.SA")) %>%
+  group_by(symbol) %>%
+  mutate(cotacao = (adjusted))
+ggplot(stocks) +
+  aes(x = date, y = close, color = symbol) +
+  geom_line()
+})
+```
