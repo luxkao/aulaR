@@ -21,18 +21,31 @@ Column {.sidebar}
 selectInput(
   "ticker",
   "Escoha o ticket:",
-  choices= c("PETR4.SA","BBAS3.SA","VALE3.SA","WEGE3.SA")
+  choices = c("", "PETR4.SA", "BBAS3.SA", "VALE3.SA", "WEGE3.SA")
+)
+```
+Ou
+
+```{r}
+textInput(
+  "ticker_text",
+  "Digite o ticket:",
+  value = "PETR4.SA"
 )
 ```
 
 
 ```{r download }
 dados_tbl <- reactive({
-  tq_get(input$ticker)
+  if (is.null(input$ticker) || input$ticker == "") {
+    tq_get(input$ticker_text)
+  } else {
+    tq_get(input$ticker)
+  }
 })
 ```
 
-Column {data-width=500}
+Column {data-width=400}
 -----------------------------------------------------------------------
 
 ### Tabela
@@ -47,9 +60,9 @@ dados_tbl()%>%
 Column {data-width=500}
 -----------------------------------------------------------------------
 
-### Gráfico de linha
+### Grafico individual da ação
 
-```{r Grafico de linha}
+```{r}
 renderPlotly(
   dados_tbl()%>%
   ggplot(aes(x=date,y=adjusted)) +
