@@ -73,12 +73,18 @@ renderPlotly(
 ### Gráfico todas ações
 
 ```{r}
-renderPlotly(
-  tq_get(c("PETR4.SA","BBAS3.SA","VALE3.SA","WEGE3.SA")) %>% 
-  group_by(symbol) %>% 
-  mutate(cotacao = (adjusted - mean(adjusted))/ sd( adjusted)) %>% 
-  ungroup() %>%  
-  ggplot(aes(x=date,y=cotacao, color = symbol)) +
-  geom_line()
-)
+renderPlotly({
+  all_stocks <- tq_get(c("PETR4.SA", "BBAS3.SA", "VALE3.SA", "WEGE3.SA"))
+  
+  if (!is.null(dados_tbl())) {
+    all_stocks <- bind_rows(all_stocks, dados_tbl())
+  }
+  
+  all_stocks %>%
+    group_by(symbol) %>%
+    mutate(cotacao = (adjusted - mean(adjusted)) / sd(adjusted)) %>%
+    ungroup() %>%
+    ggplot(aes(x = date, y = cotacao, color = symbol)) +
+    geom_line()
+})
 ```
