@@ -14,7 +14,7 @@ Além disso, foi utilizada a biblioteca **flexdashboard** para a criação do la
 
 ## Competências Desenvolvidas
 
-Ao desenvolver este aplicativo creio que consegui desenvolvi as seguintes competências:
+Ao desenvolver este aplicativo creio que consegui desenvolver as seguintes competências:
 
 1. **Desenvolvimento em R**: O projeto permitiu a prática e o aprofundamento dos conhecimentos na linguagem R, incluindo a manipulação de dados, criação de gráficos e visualizações, e o uso de bibliotecas populares como o Tidyverse.
 
